@@ -2,13 +2,14 @@ require("express-async-errors");
 require('dotenv/config');
 
 const express = require("express");
+const cors = require('cors');
 
 
 const AppError = require("./utils/AppError");
 const database = require("./database/sqlite");
 const routes = require("./routes");
 
-
+app.use(cors());
 
 const app = express();
 
