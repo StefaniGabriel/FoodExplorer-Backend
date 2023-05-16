@@ -9,9 +9,10 @@ const AppError = require("./utils/AppError");
 const database = require("./database/sqlite");
 const routes = require("./routes");
 
-app.use(cors());
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
