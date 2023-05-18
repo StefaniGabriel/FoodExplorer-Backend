@@ -4,14 +4,14 @@ class MealsService {
         this.mealsRepository = mealsRepository;
     }
 
-    async execute({ name, ingredients, description, prices, id }){
+    async execute({ name, description, prices, ingredients }){
         const meal = await this.mealsRepository.findByName(name);
 
         if(meal){
             throw new AppError("Este prato já existe");
         }
 
-        await this.mealsRepository.create({ name, ingredients, description, prices, id});
+        await this.mealsRepository.create({ name, description, prices, ingredients });
     }
 }
 

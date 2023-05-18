@@ -1,5 +1,5 @@
 
-const knex = require('../database/knex');
+const knex = require("../database/knex");
 
 class MealsRepository {
     async findByName(name) {
