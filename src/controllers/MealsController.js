@@ -27,6 +27,5 @@ class MealsController {
 
         return response.status(201).json();
     }
-}
-
+};
     module.exports = MealsController;

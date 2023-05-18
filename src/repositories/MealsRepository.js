@@ -28,29 +28,30 @@ class MealsRepository {
         return meal;
     }
     
-    async findById(id) {  
-        const meal = await knex("meals").where({ id }).first();
-
-        return meal;
-    }
-      
+    
+    
     
     async update({ id, name, description, prices, ingredients }) { 
      
-        const meal= await knex("meals").where({ id }).first();
+        const meal = await knex("meals").where({ id }).first();
 
         if(!meal){
             throw new AppError("Prato não encontrado!");
             
         }
 
-        await knex("meals").where({ id }).update({
+
+       await knex("meals").where({ id }).update({
             name,
             description,
-            prices
+            prices,
         });
 
+
+
         await knex("ingredients").where({ meals_id: id }).del();
+
+
 
         const ingredientsInsert = ingredients.map(name => ({
             meals_id: id,
@@ -59,7 +60,7 @@ class MealsRepository {
 
         await knex("ingredients").insert(ingredientsInsert);
 
-        return meal_id;
+        return meal;
     }
 
 

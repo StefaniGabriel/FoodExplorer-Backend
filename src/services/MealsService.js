@@ -1,7 +1,5 @@
 const AppError = require('../utils/AppError');
 
-
-
 class MealsService {
     constructor(mealsRepository){
         this.mealsRepository = mealsRepository; 
@@ -23,11 +21,7 @@ class MealsService {
     }
 
     async executeUpdate({ id, name, description, prices, ingredients }) {
-        const mealExists = await this.mealsRepository.findById(id);
       
-        if (!mealExists) {
-          throw new AppError("Prato não encontrado!");
-        }
 
         const nameExists = await  this.mealsRepository.findByName(name);
 
