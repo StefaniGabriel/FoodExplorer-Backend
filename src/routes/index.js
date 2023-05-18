@@ -11,7 +11,7 @@ const routes = Router();
 routes.use("/users", userRouter);
 routes.use("/adimin", adiminRoutes)
 
-routes.use("/meals", mealsRoutes);
+routes.use("/meals", mealsRoutes)
 routes.use("/sessions", sessionsRouter);
 
 module.exports = routes;

@@ -9,18 +9,14 @@ class MealsRepository {
         
     }
 
-    async create(request) {
-        const { name, description, ingredients, prices } = request.body;
-
-        const mealsInsert = {
+    async create({name, description, prices, ingredients}) {
+        const meal = await knex("meals").insert({
             name,
             description,
             prices
-        }
+        })
 
-        const insertedIds = await knex("meals").insert(mealsInsert);
-
-        const meals_id = insertedIds[0];
+        const meals_id = meal[0];
 
         const ingredientsInsert = ingredients.map(name => ({
             meals_id,
@@ -29,31 +25,45 @@ class MealsRepository {
 
         await knex("ingredients").insert(ingredientsInsert);
 
-        return mealsInsert;
+        return meal;
     }
+    
+    async findById(id) {  
+        const meal = await knex("meals").where({ id }).first();
 
+        return meal;
+    }
+      
+    
+    async update({ id, name, description, prices, ingredients }) { 
+     
+        const meal= await knex("meals").where({ id }).first();
 
+        if(!meal){
+            throw new AppError("Prato não encontrado!");
+            
+        }
 
-    async update(){ 
-        const { name, description, ingredients, prices } = request.body;
-        const { id } = request.params;
-
-        await knex("meals").update({
+        await knex("meals").where({ id }).update({
             name,
             description,
             prices
-        }).where({ id });
-
-        const  ingredientsInsert =  ingredients.map(name => {
-            return {
-                meals_id: id,
-                name,
-            }
         });
 
+        await knex("ingredients").where({ meals_id: id }).del();
+
+        const ingredientsInsert = ingredients.map(name => ({
+            meals_id: id,
+            name,
+        }));
+
         await knex("ingredients").insert(ingredientsInsert);
+
+        return meal_id;
     }
 
+
+  
 }
 
 module.exports = MealsRepository;
