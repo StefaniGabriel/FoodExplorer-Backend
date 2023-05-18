@@ -1,8 +1,8 @@
 
 
 class MealsService {
-    constructor(userRepository){
-        this.userRepository = userRepository;
+    constructor(mealsRepository){
+        this.mealsRepository = mealsRepository;
     }
 
     async execute({name, prices, description, ingredients}) {
@@ -13,6 +13,10 @@ class MealsService {
 
    
 
+    }
+
+    async updateMeals(){
+            
     }
 
 }

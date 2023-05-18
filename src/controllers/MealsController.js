@@ -4,7 +4,7 @@ const MealsRepository = require("../repositories/MealsRepository");
 
 class MealsController{
     async create(request, response){
-        const {name, prices, description, ingredients} = request.body;
+        const {name, prices, description, ingredients } = request.body;
         
         const mealsRepository = new MealsRepository();
         const mealsService = new MealsService(mealsRepository);
@@ -14,6 +14,8 @@ class MealsController{
 
         return response.status(201).json();
 }
+
+    
 
 }
 
