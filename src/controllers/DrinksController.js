@@ -1,15 +1,15 @@
-const MealsService = require("../services/MealsService");   
-const MealsRepository = require("../repositories/MealsRepository");
+const DrinksRepository = require("../repositories/DrinksRepository");
+const DrinksService = require("../services/DrinksService");   
 
-class MealsController { 
+class DrinksController {  
 
     async create(request, response){    
         const { name, description, prices, ingredients } = request.body;
 
-        const mealsRepository = new MealsRepository();
-        const mealsService = new MealsService(mealsRepository); 
+        const drinksRepository = new DrinksRepository();  
+        const drinksService = new DrinksService(drinksRepository); 
 
-        await mealsService.executeCreate({ name, description, prices, ingredients });
+        await drinksService.executeCreate({ name, description, prices, ingredients });
 
         return response.status(201).json();
 
@@ -59,4 +59,4 @@ class MealsController {
         return response.status(200).json(meals);
     }
 };
-    module.exports = MealsController;
+    module.exports = DrinksController;

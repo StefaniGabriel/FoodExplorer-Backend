@@ -1,74 +1,73 @@
 
 const knex = require("../database/knex");
-const AppError = require("../utils/AppError");
 
-class MealsRepository {
+class DrinksRepository {
     async findByName(name) {
-        const nameExists = await knex("meals").where({ name }).first();
+        const nameExists = await knex("drinks").where({ name }).first();
 
         return nameExists;
         
     }
 
     async create({name, description, prices, ingredients}) {
-        const meal = await knex("meals").insert({
+        const drinks = await knex("drinks").insert({
             name,
             description,
             prices
-        })
+        });
 
-        const meals_id = meal[0];
+        const drinks_id = drinks[0];
 
         const ingredientsInsert = ingredients.map(name => ({
-            meals_id,
+            drinks_id,
             name,
         }));
 
         await knex("ingredients").insert(ingredientsInsert);
 
-        return meal;
+        return drinks;
     }
 
     async findById(id) {    
-        const meal = await knex("meals").where({ id }).first();
-        return meal;
+        const drinks = await knex("meals").where({ id }).first();
+        return drinks;
     }
     
     
     async update({ id, name, description, prices, ingredients }) { 
 
-       await knex("meals").where({ id }).update({
+       await knex("drinks").where({ id }).update({
             name,
             description,
             prices,
         });
 
-        const meals_id = id;
+        const drinks_id = id;
 
-       await knex("ingredients").where({ meals_id}).del();
+       await knex("ingredients").where({ drinks_id}).del();
 
         const ingredientsInsert = ingredients.map(name => ({        
-            meals_id,
+            drinks_id,
             name,
         }));
 
         await knex("ingredients").insert(ingredientsInsert);
 
-        return meal;
+        return drinks;
     }
 
     async delete(id) {
-        await knex("meals").where({ id }).del();
+        await knex("drinks").where({ id }).del();
     }
 
     async findAll() {
-        const meals = await knex("meals").select("*");
+        const drinks = await knex("drinks").select("*");
         const ingredients = await knex("ingredients").select("*");
 
-        return meals.map(meal => {
-            const mealIngredients = ingredients.filter(ingredient => ingredient.meals_id === meal.id);
+        return drinks.map(meal => {
+            const mealIngredients = ingredients.filter(ingredient => ingredient.drinks_id === drinks.id);
             return {
-                ...meal,
+                ...drinks,
                 ingredients: mealIngredients,
             };
         });                         
@@ -77,11 +76,11 @@ class MealsRepository {
   
     
     async showOne(id) {
-        const meals = await knex("meals").select("*").where({ id }).first();
-        const ingredients = await knex("ingredients").select("*").where({ meals_id: id });
+        const drinks = await knex("drinks").select("*").where({ id }).first();
+        const ingredients = await knex("ingredients").select("*").where({ drinks_id: id });
 
         return {
-            ...meals,
+            ...drinks,
             ingredients
         }                         
         } 
@@ -89,4 +88,4 @@ class MealsRepository {
     }
 
 
-module.exports = MealsRepository;
+module.exports = DrinksRepository;

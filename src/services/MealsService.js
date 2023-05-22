@@ -25,7 +25,7 @@ class MealsService {
         const meals = await this.mealsRepository.findById(id);
         console.log(meals);
 
-        if(!meals){ 
+        if(!meals){
             throw new AppError("Este prato não existe", 401);
         }
          
@@ -41,7 +41,26 @@ class MealsService {
         return updateMeals;
         
       }
-      
+    
+    async executeDelete(id) {       
+        const meals = await this.mealsRepository.findById(id);
+
+        if(!meals){
+            throw new AppError("Este prato não existe", 401);
+        }
+
+        await this.mealsRepository.delete(id);
+    }    
+    
+    async executeShowAll(){
+        const meals = await this.mealsRepository.findAll();
+        return meals;               
+    }
+
+    async ExecuteShowOne(id){
+        const meals = await this.mealsRepository.showOne(id);
+        return meals;               
+    }
 
 }
 
