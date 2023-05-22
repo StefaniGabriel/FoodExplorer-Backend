@@ -20,20 +20,19 @@ app.use(routes);
 
 database();
 
-app.use( (error, request, response, next ) => {
-    if(error instanceof AppError) {
-        return response.status(error.statusCode).json({
-            status: "error",
-            message: error.message
+app.use((err, request, response, _) => {
+    if(err instanceof AppError){
+        return response.status(err.statusCode).json({
+            message: err.message
         });
     }
 
-    return response.status(error.statusCode).json({
-        status: "error",
-        message: "Internal server error"
-    })
+    return response.status(500).json({
+        status: "Error",
 
+        message: `Internal server error ${err.message}`,
 
+    });
 });
 
 const PORT = process.env.PORT_SECRET;

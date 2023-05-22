@@ -29,14 +29,14 @@ class DrinksRepository {
     }
 
     async findById(id) {    
-        const drinks = await knex("meals").where({ id }).first();
+        const drinks = await knex("drinks").where({ id }).first();
         return drinks;
     }
     
     
     async update({ id, name, description, prices, ingredients }) { 
 
-       await knex("drinks").where({ id }).update({
+       const drinks =await knex("drinks").where({ id }).update({
             name,
             description,
             prices,
@@ -61,21 +61,32 @@ class DrinksRepository {
     }
 
     async findAll() {
-        const drinks = await knex("drinks").select("*");
-        const ingredients = await knex("ingredients").select("*");
-
-        return drinks.map(meal => {
-            const mealIngredients = ingredients.filter(ingredient => ingredient.drinks_id === drinks.id);
-            return {
-                ...drinks,
-                ingredients: mealIngredients,
-            };
-        });                         
-        }   
+        const drinks = await knex('drinks').select('*');
+      
+        const ingredients = await knex
+          .select('ingredients.*')
+          .from('ingredients')
+          .join('drinks', 'ingredients.drinks_id', '=', 'drinks.id')
+          .where('drinks.id', 'ingredients.drinks_id');
+      
+        const drinksWithIngredients = drinks.map((drink) => {
+          const drinkIngredients = ingredients.filter(
+            (ingredient) => ingredient.drinks_id === drink.id
+          );
+          return {
+            ...drink,
+            ingredients: drinkIngredients,
+          }
         
-  
+        });
+
     
-    async showOne(id) {
+      
+        return drinksWithIngredients;
+      }
+      
+    
+    async show(id) {
         const drinks = await knex("drinks").select("*").where({ id }).first();
         const ingredients = await knex("ingredients").select("*").where({ drinks_id: id });
 

@@ -10,8 +10,8 @@ const drinksController = new DrinksController();
 drinksRoutes.post("/", drinksController.create);
 drinksRoutes.put("/:id", drinksController.update);
 drinksRoutes.delete("/:id", drinksController.delete);
-drinksRoutes.get("/", drinksController.showAll);
-drinksRoutes.get("/:id", drinksController.showOne);
+drinksRoutes.get("/", drinksController.findAll);
+drinksRoutes.get("/:id", drinksController.show);
 
 
 

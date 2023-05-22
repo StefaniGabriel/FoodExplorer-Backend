@@ -20,43 +20,44 @@ class DrinksController {
         const { id } = request.params;
         const { name, description, prices, ingredients } = request.body;
 
-        const mealsRepository = new MealsRepository();  
-        const mealsService = new MealsService(mealsRepository); 
+        const drinksRepository = new DrinksRepository();  
+        const drinksService = new DrinksService(drinksRepository); 
 
-        mealsService.executeUpdate({ id, name, description, prices, ingredients });
+        drinksService.executeUpdate({ id, name, description, prices, ingredients });
 
+    
         return response.status(201).json();
     }
 
     async delete(request, response){
         const { id } = request.params;
 
-        const mealsRepository = new MealsRepository();  
-        const mealsService = new MealsService(mealsRepository); 
+        const drinksRepository = new DrinksRepository();  
+        const drinksService = new DrinksService(drinksRepository); 
 
-        await mealsService.executeDelete(id);
+        await drinksService.executeDelete(id);
 
-        return response.status(201).json();
+        return response.status(201).json("Deleteado com sucesso!");
     }
 
-    async showAll(request, response){
-        const mealsRepository = new MealsRepository();  
-        const mealsService = new MealsService(mealsRepository); 
+    async findAll(response){
+        const drinksRepository = new DrinksRepository();  
+        const drinksService = new DrinksService(drinksRepository); 
 
-        const meals = await mealsService.ExecuteShowAll();
+        const drinks = await drinksService.executeFindAll();
 
-        return response.status(200).json(meals);
+        return response.json(drinks);
     }
 
-    async showOne(request, response){
+    async show(request, response){
         const { id } = request.params;
 
-        const mealsRepository = new MealsRepository();  
-        const mealsService = new MealsService(mealsRepository); 
+        const drinksRepository = new DrinksRepository();  
+        const drinksService = new DrinksService(drinksRepository); 
 
-        const meals = await mealsService.ExecuteShowOne(id);
+        const drinks = await drinksService.executeShow(id);
 
-        return response.status(200).json(meals);
+        return response.status(200).json(drinks);
     }
 };
     module.exports = DrinksController;

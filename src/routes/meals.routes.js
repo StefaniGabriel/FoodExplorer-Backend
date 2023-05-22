@@ -14,7 +14,4 @@ mealsRoutes.delete("/:id", mealsController.delete);
 mealsRoutes.get("/", mealsController.showAll);
 mealsRoutes.get("/:id", mealsController.showOne);
 
-
-
-
 module.exports = mealsRoutes;
