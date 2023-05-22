@@ -1,4 +1,4 @@
-const AppError = require('../utils/AppError');
+const AppError = require("../utils/AppError");
 
 class MealsService {
     constructor(mealsRepository){
@@ -7,7 +7,7 @@ class MealsService {
   
     async executeCreate({ name, description, prices, ingredients }){
 
-        const mealExists = await  this.mealsRepository.findByName(name);
+        const mealExists = await this.mealsRepository.findByName(name);
 
         if(mealExists){
             throw new AppError("Este prato já existe!");
@@ -21,14 +21,21 @@ class MealsService {
     }
 
     async executeUpdate({ id, name, description, prices, ingredients }) {
-      
 
-        const nameExists = await  this.mealsRepository.findByName(name);
+        const meals = await this.mealsRepository.findById(id);
+        console.log(meals);
 
-        if(nameExists){
-            throw new AppError("Este prato já existe!");
+        if(!meals){ 
+            throw new AppError("Este prato não existe", 401);
+        }
+         
+        const nameExists = await this.mealsRepository.findByName(name);
+
+        if(nameExists && nameExists.id !== id){
+            throw new AppError("Este nome já está em uso", 401);
         } 
-      
+
+     
         const updateMeals = await this.mealsRepository.update({ id, name, description, prices, ingredients });
       
         return updateMeals;
