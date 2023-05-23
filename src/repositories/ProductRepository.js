@@ -4,9 +4,12 @@ const AppError = require("../utils/AppError");
 
 class ProductRepository {
     async findByName(name) {
-        const nameExists = await knex("product").where({ name }).first();
-
-        return nameExists;
+      try{
+        const product = await knex("product").where({ name }).first();
+        return product;
+      } catch (error) {
+        throw new AppError("Produto não encontrado", 404);
+      }
         
     }
 
@@ -40,7 +43,7 @@ class ProductRepository {
     }
     
     
-    async update({ id, name, category, description, prices, ingredients }) { 
+    async updated({ id, name, category, description, prices, ingredients }) { 
 
        await knex("product").where({ id }).update({
             name,
@@ -60,7 +63,6 @@ class ProductRepository {
 
         await knex("ingredients").insert(ingredientsInsert);
 
-        return product;
     }
 
     async delete(id) {
@@ -68,10 +70,10 @@ class ProductRepository {
     }
 
     async findAll() {
-        const product = await knex("product").select("*");
+        const products = await knex("product").select("*");
         const ingredients = await knex("ingredients").select("*");
 
-        return product.map(meal => {
+        return products.map(product => {
             const productIngredients = ingredients.filter(ingredient => ingredient.product_id === product.id);
             return {
                 ...product,
@@ -79,8 +81,7 @@ class ProductRepository {
             };
         });                         
         }   
-        
-  
+    
     
     async showOne(id) {
         const product = await knex("product").select("*").where({ id }).first();

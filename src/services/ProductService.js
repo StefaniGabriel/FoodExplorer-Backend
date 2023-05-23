@@ -7,11 +7,7 @@ class ProductService {
   
     async executeCreate({ name, category, description, prices, ingredients }){
 
-        const productExists = await this.productRepository.findByName(name);
-
-        if(productExists){
-            throw new AppError("Este prato já existe!");
-        } 
+         await this.productRepository.findByName(name);
 
         const product = await this.productRepository.create({ name, category, description, prices, ingredients });
     
@@ -20,25 +16,25 @@ class ProductService {
       
     }
 
-    async executeUpdate({ id, name, category, description, prices, ingredients }) {
-
+    async executeUpdate({response ,id, name, category, description, prices, ingredients }) {
         const product = await this.productRepository.findById(id);
 
         if(!product){
             throw new AppError("Este prato não existe", 401);
         }
-         
-        const nameExists = await this.productRepository.findByName(name);
 
-        if(nameExists && nameExists.id !== product.id){
-            throw new AppError("Este nome já está em uso", 401);
+        const nameAlreadyExists = await this.productRepository.findByName(name);
+       
+
+        if(nameAlreadyExists){
+            if(nameAlreadyExists.id !== id){
+                throw new AppError("Já existe um prato com este nome", 401);
+            }  
         } 
 
-     
-        const updateProduct = await this.productRepository.update({ id, name, category, description, prices, ingredients });
-      
-        return updateProduct;
-        
+        await this.productRepository.updated({ id, name, category, description, prices, ingredients });
+
+        return product;
       }
     
     async executeDelete(id) {       
@@ -51,12 +47,12 @@ class ProductService {
         await this.productRepository.delete(id);
     }    
     
-    async executeShowAll(){
+    async executeFindAll(){
         const product = await this.productRepository.findAll();
         return product;               
     }
 
-    async ExecuteShowOne(id){
+    async executeShowOne(id){
         const product = await this.productRepository.showOne(id);
         return product;               
     }

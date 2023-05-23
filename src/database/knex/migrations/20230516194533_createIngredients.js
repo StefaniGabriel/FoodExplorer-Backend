@@ -2,10 +2,7 @@ exports.up = knex => knex.schema.createTable("Ingredients", table => {
     table.increments("id");
     table.text("name").notNullable();
 
-    table.integer("meals_id").references("id").inTable("meals").onDelete("CASCADE");
-    table.integer("drinks_id").references("id").inTable("drinks").onDelete("CASCADE");
-
-
+    table.integer("product_id").references("id").inTable("product").onDelete("CASCADE");
 
 }) 
 

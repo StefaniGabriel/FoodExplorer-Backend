@@ -10,7 +10,7 @@ const routes = Router();
 routes.use("/users", userRouter);
 routes.use("/adimin", adiminRoutes)
 
-routes.use("/products", productRoutes);
+routes.use("/product", productRoutes);
 
 routes.use("/sessions", sessionsRouter);
 

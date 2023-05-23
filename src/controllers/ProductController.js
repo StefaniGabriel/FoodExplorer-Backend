@@ -4,7 +4,7 @@ const ProductRepository = require("../repositories/ProductRepository");
 class ProductController { 
 
     async create(request, response){    
-        const { name, description, prices, ingredients } = request.body;
+        const { name, category, description, prices, ingredients } = request.body;
 
         const productRepository = new ProductRepository();
         const productService = new ProductService(productRepository); 
@@ -43,7 +43,7 @@ class ProductController {
         const productRepository = new ProductRepository();  
         const productService = new ProductService(productRepository); 
 
-        const product = await productService.ExecuteShowAll();
+        const product = await productService.executeFindAll();
 
         return response.status(200).json(product);
     }
@@ -54,7 +54,7 @@ class ProductController {
         const productRepository = new ProductRepository();  
         const productService = new ProductService(productRepository); 
 
-        const product = await productService.ExecuteShowOne(id);
+        const product = await productService.executeShowOne(id);
 
         return response.status(200).json(product);
     }

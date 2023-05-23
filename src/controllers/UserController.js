@@ -13,6 +13,8 @@ class UserController {
 
     return response.status(201).json();
 }
+
+
 }
 
 module.exports = UserController;
