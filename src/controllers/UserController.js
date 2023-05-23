@@ -3,12 +3,12 @@ const UserService = require("../services/UserService");
 
 class UserController {
     async create(request, response){
-        const {name, email, password} = request.body;
+        const {name, email, password, type} = request.body;
 
     const userRepository = new UserRepository();
     const userService = new UserService(userRepository);
     
-    await userService.execute({ name, email, password });
+    await userService.execute({ name, email, password, type });
 
 
     return response.status(201).json();
@@ -16,5 +16,4 @@ class UserController {
 
 
 }
-
 module.exports = UserController;

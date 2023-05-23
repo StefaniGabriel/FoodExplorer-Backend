@@ -22,6 +22,9 @@ function ensureAuthentication(request, response, next) {
     } catch {
         throw new AppError("JNT token inválido!", 401)
     }
+
+
+    
 }
 
 module.exports = ensureAuthentication;

@@ -9,13 +9,18 @@ class UserRepository {
         return user;
     }
 
-    async create({name, email, password}){
+    async create({name, email, password, type}){
         
-        const userId = await knex("users").insert({ name, email, password });
+        const userId = await knex("users").insert({ name, email, password, type});
 
             return { id: userId };
     }
 
+    async findByType(type){
+        const user = await knex("users").where({ type }).first();
+
+        return user;
+    }
 }
 
 module.exports = UserRepository;

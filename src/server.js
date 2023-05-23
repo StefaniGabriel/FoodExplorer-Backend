@@ -6,6 +6,8 @@ const cors = require('cors');
 
 
 const AppError = require("./utils/AppError");
+const createAdminAccount = require("./utils/Admin");
+
 const database = require("./database/sqlite");
 const routes = require("./routes");
 
@@ -18,7 +20,10 @@ app.use(express.json());
 
 app.use(routes);
 
+
 database();
+
+createAdminAccount();
 
 app.use((err, request, response, _) => {
     if(err instanceof AppError){
@@ -37,3 +42,5 @@ app.use((err, request, response, _) => {
 
 const PORT = process.env.PORT_SECRET;
 app.listen(PORT, () => console.log(`Rodando em ${PORT}`))
+
+
