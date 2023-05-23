@@ -2,40 +2,45 @@
 const knex = require("../database/knex");
 const AppError = require("../utils/AppError");
 
-class MealsRepository {
+class ProductRepository {
     async findByName(name) {
-        const nameExists = await knex("meals").where({ name }).first();
+        const nameExists = await knex("product").where({ name }).first();
 
         return nameExists;
         
     }
 
-    async create({name, description, prices, ingredients}) {
-        const meal = await knex("meals").insert({
+    async create({name, category, description, prices, ingredients}) {
+        const product = await knex("product").insert({
             name,
+            category,
             description,
             prices
         })
 
-        const meals_id = meal[0];
+        const product_id = product[0];
 
         const ingredientsInsert = ingredients.map(name => ({
-            meals_id,
+            product_id,
             name,
         }));
 
         await knex("ingredients").insert(ingredientsInsert);
 
-        return meal;
+        return product;
     }
 
-    async findById(id) {    
-        const meal = await knex("meals").where({ id }).first();
-        return meal;
+    async findById(id) {
+        try{    
+        const product = await knex("product").where({ id }).first();
+        return product;
+        } catch (error) {
+            throw new AppError("Produto não encontrado", 404);
+        }
     }
     
     
-    async update({ id, name, description, prices, ingredients }) { 
+    async update({ id, name, category, description, prices, ingredients }) { 
 
        await knex("meals").where({ id }).update({
             name,
