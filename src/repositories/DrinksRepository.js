@@ -42,7 +42,7 @@ class DrinksRepository {
             prices,
         });
 
-        const drinks_id = id;
+        const drinks_id = drinks[0];
 
        await knex("ingredients").where({ drinks_id}).del();
 
@@ -80,9 +80,9 @@ class DrinksRepository {
         
         });
 
-    
-      
         return drinksWithIngredients;
+      
+        
       }
       
     
