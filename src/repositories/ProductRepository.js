@@ -42,39 +42,40 @@ class ProductRepository {
     
     async update({ id, name, category, description, prices, ingredients }) { 
 
-       await knex("meals").where({ id }).update({
+       await knex("product").where({ id }).update({
             name,
+            category,
             description,
             prices,
         });
 
-        const meals_id = id;
+        const product_id = id;
 
-       await knex("ingredients").where({ meals_id}).del();
+       await knex("ingredients").where({ product_id}).del();
 
         const ingredientsInsert = ingredients.map(name => ({        
-            meals_id,
+            product_id,
             name,
         }));
 
         await knex("ingredients").insert(ingredientsInsert);
 
-        return meal;
+        return product;
     }
 
     async delete(id) {
-        await knex("meals").where({ id }).del();
+        await knex("product").where({ id }).del();
     }
 
     async findAll() {
-        const meals = await knex("meals").select("*");
+        const product = await knex("product").select("*");
         const ingredients = await knex("ingredients").select("*");
 
-        return meals.map(meal => {
-            const mealIngredients = ingredients.filter(ingredient => ingredient.meals_id === meal.id);
+        return product.map(meal => {
+            const productIngredients = ingredients.filter(ingredient => ingredient.product_id === product.id);
             return {
-                ...meal,
-                ingredients: mealIngredients,
+                ...product,
+                ingredients: productIngredients,
             };
         });                         
         }   
@@ -82,11 +83,11 @@ class ProductRepository {
   
     
     async showOne(id) {
-        const meals = await knex("meals").select("*").where({ id }).first();
-        const ingredients = await knex("ingredients").select("*").where({ meals_id: id });
+        const product = await knex("product").select("*").where({ id }).first();
+        const ingredients = await knex("ingredients").select("*").where({ product_id: id });
 
         return {
-            ...meals,
+            ...product,
             ingredients
         }                         
         } 
@@ -94,4 +95,4 @@ class ProductRepository {
     }
 
 
-module.exports = MealsRepository;
+module.exports = ProductRepository;
