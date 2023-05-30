@@ -7,29 +7,20 @@ const { compare } = require("bcryptjs");
 
 class SessionsController{
     
-    async authentication(request, response){
+    async create(request, response){
         
         const { email, password } = request.body;
-        let user;
-        const adimin = await knex("adimin").where({ email }).first();
-        const client = await knex("users").where({ email }).first();
-         
 
-        if(adimin){
-            user = adimin;
-           
-        } else {
-            user = client;
-
-        }
+        const user = await knex("users").where({ email }).first();
+        
 
         if(!user){
-            throw new AppError("E-mail e/ou senha incorreta.",401)
+            throw new AppError("E-mail e/ou senha incorreta.")
         }
 
         const passwordMatched = await compare(password, user.password);
         if(!passwordMatched){
-            throw new AppError("E-mail e/ou senha incorreta.",401)
+            throw new AppError("E-mail e/ou senha incorreta.")
         }
 
         const { secret, expiresIn } = authConfig.jwt;

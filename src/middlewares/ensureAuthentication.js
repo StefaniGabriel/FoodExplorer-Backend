@@ -23,6 +23,8 @@ function ensureAuthentication(request, response, next) {
         throw new AppError("JNT token inválido!", 401)
     }
 
+        
+
 
     
 }

@@ -8,7 +8,6 @@ const routes = Router();
 
 routes.use("/users", userRouter);
 
-
 routes.use("/product", productRoutes);
 
 routes.use("/sessions", sessionsRouter);
