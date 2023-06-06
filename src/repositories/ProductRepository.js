@@ -71,7 +71,8 @@ class ProductRepository {
 
     async findAll() {
         const products = await knex("product").select("*");
-        const ingredients = await knex("ingredients").select("*");
+        const ingredients = await knex("ingredients").select("*")
+        
 
         return products.map(product => {
             const productIngredients = ingredients.filter(ingredient => ingredient.product_id === product.id);
