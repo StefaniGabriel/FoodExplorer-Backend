@@ -1,0 +1,16 @@
+const ImageProductRepository = require("../repositories/ImageProductRepository");
+
+class ImageProductController {
+  async update(request, response) {
+    const { id } = request.params;
+    const image = request.file.filename;
+  
+    const imageProductRepository = new ImageProductRepository();
+
+    const product = await imageProductRepository.update({ id: parseInt(id), image });
+
+    return response.json(product);
+  }
+}
+
+module.exports = ImageProductController;

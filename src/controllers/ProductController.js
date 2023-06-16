@@ -58,5 +58,8 @@ class ProductController {
 
         return response.status(200).json(product);
     }
+
+ 
+
 };
     module.exports = ProductController;

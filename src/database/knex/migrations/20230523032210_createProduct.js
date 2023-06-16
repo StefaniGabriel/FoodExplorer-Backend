@@ -4,6 +4,7 @@ exports.up = knex => knex.schema.createTable("product", table=> {
     table.string("category");
     table.text("description");
     table.decimal('prices');
+    table.text("image");
 });
 
 
