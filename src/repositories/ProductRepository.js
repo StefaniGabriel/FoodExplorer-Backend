@@ -1,19 +1,17 @@
 
 const knex = require("../database/knex");
 const AppError = require("../utils/AppError");
+const ImageProductController = require("../controllers/ImageProductController");
 
 class ProductRepository {
+   
+    
     async findByName(name) {
-      try{
         const product = await knex("product").where({ name }).first();
         return product;
-      } catch (error) {
-        throw new AppError("Produto não encontrado", 404);
-      }
-        
     }
 
-    async create({name, category, description, prices, ingredients}) {
+    async create({name, category, description, prices, ingredients, image}) {
         const product = await knex("product").insert({
             name,
             category,
@@ -23,6 +21,8 @@ class ProductRepository {
 
         const product_id = product[0];
 
+        
+
         const ingredientsInsert = ingredients.map(name => ({
             product_id,
             name,
@@ -30,8 +30,13 @@ class ProductRepository {
 
         await knex("ingredients").insert(ingredientsInsert);
 
-        return product;
+        const infosProduct = await knex("product").where({ id: product_id }).first();
+
+        return infosProduct;
+      
     }
+
+    
 
     async findById(id) {
         try{    

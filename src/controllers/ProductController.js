@@ -1,17 +1,20 @@
 const ProductService = require("../services/ProductService");   
 const ProductRepository = require("../repositories/ProductRepository");
 
+
 class ProductController { 
+
 
     async create(request, response){    
         const { name, category, description, prices, ingredients } = request.body;
 
         const productRepository = new ProductRepository();
-        const productService = new ProductService(productRepository); 
+        const productService = new ProductService(productRepository);
 
-        await productService.executeCreate({ name, category, description, prices, ingredients });
+        const product = await productService.executeCreate({ name, category, description, prices, ingredients });
 
-        return response.status(201).json();
+     
+        return response.status(201).json(product);
 
     }
 

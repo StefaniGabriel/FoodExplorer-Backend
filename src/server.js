@@ -5,6 +5,7 @@ const express = require("express");
 const cors = require('cors');
 
 
+const uploadConfig = require("./config/upload");
 const AppError = require("./utils/AppError");
 const createAdminAccount = require("./utils/Admin");
 
@@ -17,6 +18,8 @@ const app = express();
 app.use(cors());
 
 app.use(express.json());
+
+app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
 
 app.use(routes);
 

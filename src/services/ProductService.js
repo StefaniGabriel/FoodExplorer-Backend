@@ -7,7 +7,11 @@ class ProductService {
   
     async executeCreate({ name, category, description, prices, ingredients }){
 
-         await this.productRepository.findByName(name);
+        const nameAlreadyExists = await this.productRepository.findByName(name);
+
+        if(nameAlreadyExists){
+            throw new AppError("Já existe um prato com este nome", 401);
+        }
 
         const product = await this.productRepository.create({ name, category, description, prices, ingredients });
     

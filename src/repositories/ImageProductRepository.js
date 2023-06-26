@@ -14,18 +14,13 @@ class ImageProductRepository {
   }
 
   async update({ id, image }) {
-    const product = await this.findById(id);
     const diskStorage = new DiskStorage();
+    const product = await this.findById(id);
+  
 
     if (!product) {
       throw new AppError("Produto não existe!", 404);
     }
-
-    if (product.image) {
-      await diskStorage.deleteFile(product.image);
-    }
-
-   
 
     const filename = await diskStorage.saveFile(image);
     product.image = filename;
