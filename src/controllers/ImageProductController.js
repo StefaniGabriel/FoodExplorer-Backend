@@ -7,7 +7,7 @@ class ImageProductController {
 
     const imageProductRepository = new ImageProductRepository();
 
-    const product = await imageProductRepository.update({ id: parseInt(id), image });
+    const product = await imageProductRepository.update({ id, image });
 
     return response.json(product);
   }

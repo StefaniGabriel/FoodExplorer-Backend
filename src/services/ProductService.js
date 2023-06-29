@@ -9,7 +9,7 @@ class ProductService {
 
         const nameAlreadyExists = await this.productRepository.findByName(name);
 
-        if(nameAlreadyExists){
+        if(nameAlreadyExists ){
             throw new AppError("Já existe um prato com este nome", 401);
         }
 
@@ -20,25 +20,9 @@ class ProductService {
       
     }
 
-    async executeUpdate({response ,id, name, category, description, prices, ingredients }) {
-        const product = await this.productRepository.findById(id);
-
-        if(!product){
-            throw new AppError("Este prato não existe", 401);
-        }
-
-        const nameAlreadyExists = await this.productRepository.findByName(name);
+    async executeUpdate({ id, name, category, description, prices, ingredients }) {
+       await this.productRepository.updated({ id, name, category, description, prices, ingredients });
        
-
-        if(nameAlreadyExists){
-            if(nameAlreadyExists.id !== id){
-                throw new AppError("Já existe um prato com este nome", 401);
-            }  
-        } 
-
-        await this.productRepository.updated({ id, name, category, description, prices, ingredients });
-
-        return product;
       }
     
     async executeDelete(id) {       

@@ -6,29 +6,30 @@ class ProductController {
 
 
     async create(request, response){    
-        const { name, category, description, prices, ingredients } = request.body;
+        const { name, category, description, prices, ingredients} = request.body;
+
 
         const productRepository = new ProductRepository();
         const productService = new ProductService(productRepository);
 
-        const product = await productService.executeCreate({ name, category, description, prices, ingredients });
+        const product = await productService.executeCreate({ name, category, description, prices, ingredients});
 
-     
         return response.status(201).json(product);
 
     }
 
 
     async update(request, response){    
-        const { id } = request.params;
+        const {id} = request.params;
+      
         const { name, category, description, prices, ingredients } = request.body;
 
         const productRepository = new ProductRepository();  
         const productService = new ProductService(productRepository); 
 
-        productService.executeUpdate({ id, name, category, description, prices, ingredients });
+         await productService.executeUpdate({ id, name, category, description, prices, ingredients });
 
-        return response.status(201).json();
+        return response.status(201).json("Produto atualizado com sucesso!");
     }
 
     async delete(request, response){

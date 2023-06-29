@@ -1,7 +1,7 @@
 
 const knex = require("../database/knex");
 const AppError = require("../utils/AppError");
-const ImageProductController = require("../controllers/ImageProductController");
+
 
 class ProductRepository {
    
@@ -11,7 +11,7 @@ class ProductRepository {
         return product;
     }
 
-    async create({name, category, description, prices, ingredients, image}) {
+    async create({name, category, description, prices, ingredients}) {
         const product = await knex("product").insert({
             name,
             category,
@@ -30,36 +30,50 @@ class ProductRepository {
 
         await knex("ingredients").insert(ingredientsInsert);
 
-        const infosProduct = await knex("product").where({ id: product_id }).first();
+        await knex("product").where({ id: product_id }).first();
 
-        return infosProduct;
+        return product
       
     }
 
-    
-
     async findById(id) {
-        try{    
         const product = await knex("product").where({ id }).first();
         return product;
-        } catch (error) {
-            throw new AppError("Produto não encontrado", 404);
-        }
     }
     
     
     async updated({ id, name, category, description, prices, ingredients }) { 
+        const product = await this.findById(id);
 
-       await knex("product").where({ id }).update({
+        if(!product){
+            throw new AppError("Este prato não existe", 401);
+        }
+
+        const productExists = await this.findByName(name);
+
+        if(productExists && productExists.id !== product.id){
+            throw new AppError("Já existe um prato com este nome", 401);
+        }
+        
+
+        name = name ?? product.name;
+        category = category ?? product.category;
+        description = description ?? product.description;
+        prices = prices ?? product.prices;
+        ingredients = ingredients ?? product.ingredients;
+        
+
+       const productUpdated = await knex("product").where({ id }).update({
             name,
             category,
             description,
-            prices,
+            prices
+          
         });
 
         const product_id = id;
 
-       await knex("ingredients").where({ product_id}).del();
+        await knex("ingredients").where({ product_id }).del();
 
         const ingredientsInsert = ingredients.map(name => ({        
             product_id,
@@ -67,6 +81,8 @@ class ProductRepository {
         }));
 
         await knex("ingredients").insert(ingredientsInsert);
+
+       return productUpdated;
 
     }
 

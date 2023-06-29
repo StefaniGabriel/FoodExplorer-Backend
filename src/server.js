@@ -44,6 +44,6 @@ app.use((err, request, response, _) => {
 });
 
 const PORT = process.env.PORT_SECRET;
-app.listen(PORT, () => console.log(`Rodando em ${PORT}`))
+app.listen(PORT, () => console.log(`Rodando em ${PORT}`));
 
 

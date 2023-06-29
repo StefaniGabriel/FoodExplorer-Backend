@@ -18,7 +18,7 @@ productRoutes.put("/:id", productController.update);
 productRoutes.delete("/:id", productController.delete);
 productRoutes.get("/", productController.showAll);
 productRoutes.get("/:id", productController.showOne);
-productRoutes.post("/image/:id", upload.single("image"), imageProductController.update);
+productRoutes.patch("/image/:id", upload.single("image"), imageProductController.update);
 
 
 
