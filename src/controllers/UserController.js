@@ -8,7 +8,9 @@ class UserController {
     const userRepository = new UserRepository();
     const userService = new UserService(userRepository);
     
-    await userService.execute({ name, email, password, type });
+    const user = await userService.execute({ name, email, password, type });
+
+
 
 
     return response.status(201).json();

@@ -32,7 +32,9 @@ class ProductRepository {
 
         await knex("product").where({ id: product_id }).first();
 
-        return product
+        const  productInfos = await knex("product").where({ id: product_id }).first();
+
+        return productInfos;
       
     }
 

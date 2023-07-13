@@ -13,7 +13,7 @@ class UserRepository {
         
         const userId = await knex("users").insert({ name, email, password, type});
 
-            return { id: userId };
+        return userId;
     }
 
     async findByType(type){
