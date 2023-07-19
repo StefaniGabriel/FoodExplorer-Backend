@@ -6,9 +6,9 @@ async function createAdminAccount() {
     const userRepository = new UserRepository();
     const userService = new UserService(userRepository);
   
-    const adminName = "admin";
-    const adminEmail = "admin@example.com";
-    const adminPassword = "admin";
+    const adminName = "Food Delivery Admin";
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD;
     const adminType = "admin";
   
     try {
