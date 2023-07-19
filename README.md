@@ -1,6 +1,6 @@
-# FoodE# Food Explorer - Menu Interativo de Restaurante
+# Foode Food Explorer - Menu Interativo de Restaurante
 
-###**Back-end**
+### Back-end
 
 
 O Food Explorer é um projeto de ponta a ponta que simula um restaurante fictício, oferecendo uma aplicação completa com front-end e back-end. O objetivo é fornecer uma plataforma onde o admin possa gerenciar os pratos, enquanto os usuários podem explorar um menu interativo e descobrir novas delícias culinárias.
