@@ -2,7 +2,7 @@ const FavoriteService = require('../services/FavoriteService');
 
 class FavoriteController {
     constructor() {
-        this.favoriteService = FavoriteService;
+        this.favoriteService = new FavoriteService;
     }
 
     async getFavorites(req, res) {
@@ -10,6 +10,7 @@ class FavoriteController {
         const favorites = await this.favoriteService.getFavorites(id);
         return res.json(favorites);
     }
+
 
     async createFavorite(req, res) {
         const { id } = req.params;

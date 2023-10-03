@@ -2,7 +2,7 @@ const FavoriteRepository = require('../repositories/FavoriteRepository');
 
 class FavoriteService {
     constructor() {
-        this.favoriteRepository = FavoriteRepository;
+        this.favoriteRepository = new FavoriteRepository;
     }
 
     async getFavorites(id) {

@@ -1,6 +1,6 @@
 const knex = require("../database/knex");
 
-class favoriteRepository {
+class FavoriteRepository {
 
     async getFavorites(id) {
         const favorites = await knex("favorite").where({ user_id: id });
@@ -21,4 +21,4 @@ class favoriteRepository {
     }
 };
 
-module.exports = favoriteRepository;
+module.exports = FavoriteRepository;
